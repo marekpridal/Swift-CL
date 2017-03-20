@@ -61,9 +61,15 @@ class Cat:Animal
 var Pes = Dog()
 var Kocka = Cat()
 var pejsek = Dog(jmeno: "Hafík",vek: 20,vaha: 5)
-
+/*
 print(Pes.woof())
 print(Pes.getDetails())
 print(Kocka.meow())
 print(Kocka.getDetails())
 print(pejsek.getDetails())
+*/
+Pes.woof()
+Pes.getDetails()
+Kocka.meow()
+Kocka.getDetails()
+pejsek.getDetails()

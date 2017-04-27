@@ -2,7 +2,10 @@ import Foundation
 
 print("Hello World!")
 
-if let input = readLine()
-{
-    print("Your input \(input)")
-}
+let first = Car()
+
+first.printClass()
+
+let second = Car(name: "Skoda", color: "Red")
+
+second.printClass()

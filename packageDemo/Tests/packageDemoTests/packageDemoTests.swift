@@ -1,11 +1,12 @@
 import XCTest
 @testable import packageDemo
 
-class packageDemoTests: XCTestCase {
+class packageDemoTests: XCTestCase
+{
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCTAssertEqual(packageDemo().text, "Hello, World!")
+        XCTAssertEqual(packageDemo, "Hello, World!")
     }
 
 

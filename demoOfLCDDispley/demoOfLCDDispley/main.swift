@@ -24,10 +24,13 @@ for _ in 0..<length
 {
     iterator += 1
     var i = 0
+    var word = ""
     while i < iterator
     {
-        print(characters[i])
+        word += String(characters[i])
         i += 1
     }
+    print(word)
     print("-------------------")
 }
+print("Number of characters \(characters.count)")

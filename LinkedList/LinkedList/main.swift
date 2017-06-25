@@ -17,36 +17,36 @@ class ElementNotFound : Error
     }
 }
 
-class Node : Equatable
+class Node<T> : Equatable
 {
     static func ==(lhs: Node, rhs: Node) -> Bool
     {
-        return lhs.next == rhs.next && lhs.value == rhs.value
+        return lhs.next == rhs.next
     }
     
     var next:Node? = nil
-    var value:String
-    init(value:String)
+    var value:T
+    init(value:T)
     {
         self.value = value
     }
 }
 
-class LinkedList
+class LinkedList<T>
 {
-    private var head:Node?
-    private var tail:Node?
+    private var head:Node<T>?
+    private var tail:Node<T>?
     
-    func push(value:String)
+    func push(value:T)
     {
         guard let tail = tail else
         {
-            let new = Node(value:value)
+            let new = Node<T>(value:value)
             self.head = new
             self.tail = new
             return
         }
-        let tmpNode = Node(value:value)
+        let tmpNode = Node<T>(value:value)
         tail.next = tmpNode
         self.tail = tmpNode
     }
@@ -106,44 +106,59 @@ class LinkedList
         var increment = 1
         while(current != nil)
         {
-            print(increment)
-            print(current!.value)
+            print("\(increment) \(current!.value)")
             current = current?.next
             increment += 1
         }
     }
 }
 
-var list = LinkedList()
+extension LinkedList: CustomStringConvertible
+{
+    public var description:String
+    {
+        var text = "["
+        var node = self.head
+        
+        while node != nil {
+            text += "\(node!.value)"
+            node = node!.next
+            if node != nil { text += ", " }
+        }
+        return text + "]"
+    }
+}
 
-list.push(value: "first")
-list.push(value: "second")
-list.push(value: "third")
-//list.debug()
+var list = LinkedList<Int>()
+
+list.push(value: 100)
+list.push(value: 200)
+list.push(value: 300)
+print(list)
 list.pop()
-//list.debug()
-list.push(value: "fourth")
-list.push(value: "fifth")
+print(list)
+list.push(value: 400)
+list.push(value: 500)
 
 do
 {
-    list.debug()
-    try list.remove(At: 4)
-    list.debug()
+    print(list)
+    try list.remove(At: 2)
+    print(list)
     try list.remove(At: 3)
-    list.debug()
+    print(list)
     try list.remove(At: 3)
-    list.debug()
+    print(list)
 }catch
 {
-    print("Error")
+    print(error.localizedDescription)
 }
 do
 {
     try list.remove()
-    list.debug()
+    print(list)
     try list.remove()
 }catch
 {
-    print("Error")
+    print(error.localizedDescription)
 }

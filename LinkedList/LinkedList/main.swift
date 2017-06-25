@@ -162,3 +162,37 @@ do
 {
     print(error.localizedDescription)
 }
+
+var listWithString = LinkedList<String>()
+
+listWithString.push(value: "First")
+listWithString.push(value: "Second")
+listWithString.push(value: "Third")
+print(listWithString)
+listWithString.pop()
+print(listWithString)
+listWithString.push(value: "Fourth")
+listWithString.push(value: "Fifth")
+
+do
+{
+    print(listWithString)
+    try listWithString.remove(At: 2)
+    print(listWithString)
+    try listWithString.remove(At: 3)
+    print(listWithString)
+    try listWithString.remove(At: 3)
+    print(listWithString)
+}catch
+{
+    print(error.localizedDescription)
+}
+do
+{
+    try listWithString.remove()
+    print(listWithString)
+    try listWithString.remove()
+}catch
+{
+    print(error.localizedDescription)
+}

@@ -13,12 +13,38 @@ let originalDefaultEncoding = String.Encoding.windowsCP1250
 let transcodedDefaultEncoding = String.Encoding.utf8
 
 //MARK: - Functions
-func getContent(ofFile path:String, encoding: String.Encoding)throws -> String {
-    return try String(contentsOfFile: path, encoding: encoding)
+func getEncoding()-> String.Encoding {
+    print("Using default encoding \(originalDefaultEncoding)")
+    return originalDefaultEncoding
+}
+
+func getContent(ofFile path:String, encoding: String.Encoding?) -> String? {
+    if let encoding = encoding {
+        do {
+            return try String(contentsOfFile: path, encoding: encoding)
+        } catch CocoaError.fileReadUnknownStringEncoding {
+            print("Cannot determine file encoding")
+            return getContent(ofFile: path, encoding: getEncoding())
+        } catch let e {
+            print(e.localizedDescription)
+            return nil
+        }
+        
+    } else {
+        do {
+            return try String(contentsOfFile: path)
+        } catch CocoaError.fileReadUnknownStringEncoding {
+            print("Cannot determine file encoding")
+            return getContent(ofFile: path, encoding: getEncoding())
+        } catch let e {
+            print(e.localizedDescription)
+            return nil
+        }
+    }
 }
 
 func checkIfFileExistsAndHaveContent(file: String) -> Bool {
-    if let content = try? getContent(ofFile: file, encoding: transcodedDefaultEncoding) {
+    if let content = getContent(ofFile: file, encoding: transcodedDefaultEncoding) {
         return !content.isEmpty
     }
     return false
@@ -36,7 +62,9 @@ func printContentOfDirectory(atPath path: String) {
 }
 
 func transcodeFile(withName fileName:String)throws {
-    let original = try getContent(ofFile: fileName, encoding: originalDefaultEncoding)
+    guard let original = getContent(ofFile: fileName, encoding: nil) else {
+        exit(1)
+    }
     print("What's your name for transcoded file? (empty for same name)")
     var newName = readLine(strippingNewline: true)
     if newName?.isEmpty ?? true {

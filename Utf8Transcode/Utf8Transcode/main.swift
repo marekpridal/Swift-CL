@@ -5,6 +5,7 @@
 //  Created by Marek Přidal on 16.11.17.
 //  Copyright © 2017 Marek Přidal. All rights reserved.
 //
+
 import Foundation
 
 //MARK: - Constants

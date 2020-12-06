@@ -82,6 +82,20 @@ class LinkedList<T> {
         }
         throw ElementNotFound("Element not found")
     }
+    
+    func reverse() {
+        var previousNode: Node<T>? = nil
+        var currentNode = head
+        var nextNode = head?.next
+        while nextNode != nil {
+            currentNode?.next = previousNode
+            previousNode = currentNode
+            currentNode = nextNode
+            nextNode = currentNode?.next
+        }
+        currentNode?.next = previousNode
+        head = currentNode
+    }
 
     func debug() {
         var current = head
@@ -114,6 +128,11 @@ list.push(value: 100)
 list.push(value: 200)
 list.push(value: 300)
 print(list)
+
+list.reverse()
+print(list)
+list.reverse()
+
 list.pop()
 print(list)
 list.push(value: 400)

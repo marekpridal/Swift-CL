@@ -8,87 +8,70 @@
 
 import Foundation
 
-class ElementNotFound : Error
-{
-    var message:String
-    init(_ message:String)
-    {
+class ElementNotFound: Error {
+    var message: String
+    init(_ message: String) {
         self.message = message
     }
 }
 
-class Node<T> : Equatable
-{
-    static func ==(lhs: Node, rhs: Node) -> Bool
-    {
+class Node<T>: Equatable {
+    static func == (lhs: Node, rhs: Node) -> Bool {
         return lhs.next == rhs.next
     }
-    
-    var next:Node? = nil
-    var value:T
-    init(value:T)
-    {
+
+    var next: Node?
+    var value: T
+    init(value: T) {
         self.value = value
     }
 }
 
-class LinkedList<T>
-{
-    private var head:Node<T>?
-    private var tail:Node<T>?
-    
-    func push(value:T)
-    {
-        guard let tail = tail else
-        {
-            let new = Node<T>(value:value)
+class LinkedList<T> {
+    private var head: Node<T>?
+    private var tail: Node<T>?
+
+    func push(value: T) {
+        guard let tail = tail else {
+            let new = Node<T>(value: value)
             self.head = new
             self.tail = new
             return
         }
-        let tmpNode = Node<T>(value:value)
+        let tmpNode = Node<T>(value: value)
         tail.next = tmpNode
         self.tail = tmpNode
     }
-    
-    func pop()
-    {
+
+    func pop() {
         var current = head
-        
-        while(current?.next?.next != nil)
-        {
+
+        while current?.next?.next != nil {
             current = current?.next
         }
-        
+
         current?.next = nil
         tail = current
     }
-    
-    func remove() throws
-    {
-        if head == nil || tail == nil
-        {
+
+    func remove() throws {
+        if head == nil || tail == nil {
             throw ElementNotFound("List is already empty")
         }
         head = nil
         tail = nil
     }
-    
-    func remove(At element:Int) throws
-    {
+
+    func remove(At element: Int) throws {
         var current = head
         var increment = 1
-        while(current != nil)
-        {
-            if increment == element - 1
-            {
-                if (current?.next == tail)
-                {
+        while current != nil {
+            if increment == element - 1 {
+                if current?.next == tail {
                     tail = current
                 }
-                
-                if (current?.next == nil)
-                {
+
+                if current?.next == nil {
                     throw ElementNotFound("Element not found")
                 }
                 current?.next = current?.next?.next
@@ -99,13 +82,11 @@ class LinkedList<T>
         }
         throw ElementNotFound("Element not found")
     }
-    
-    func debug()
-    {
+
+    func debug() {
         var current = head
         var increment = 1
-        while(current != nil)
-        {
+        while current != nil {
             print("\(increment) \(current!.value)")
             current = current?.next
             increment += 1
@@ -113,13 +94,11 @@ class LinkedList<T>
     }
 }
 
-extension LinkedList: CustomStringConvertible
-{
-    public var description:String
-    {
+extension LinkedList: CustomStringConvertible {
+    public var description: String {
         var text = "["
         var node = self.head
-        
+
         while node != nil {
             text += "\(node!.value)"
             node = node!.next
@@ -140,8 +119,7 @@ print(list)
 list.push(value: 400)
 list.push(value: 500)
 
-do
-{
+do {
     print(list)
     try list.remove(At: 2)
     print(list)
@@ -149,17 +127,14 @@ do
     print(list)
     try list.remove(At: 3)
     print(list)
-}catch
-{
+} catch {
     print(error.localizedDescription)
 }
-do
-{
+do {
     try list.remove()
     print(list)
     try list.remove()
-}catch
-{
+} catch {
     print(error.localizedDescription)
 }
 
@@ -174,8 +149,7 @@ print(listWithString)
 listWithString.push(value: "Fourth")
 listWithString.push(value: "Fifth")
 
-do
-{
+do {
     print(listWithString)
     try listWithString.remove(At: 2)
     print(listWithString)
@@ -183,16 +157,13 @@ do
     print(listWithString)
     try listWithString.remove(At: 3)
     print(listWithString)
-}catch
-{
+} catch {
     print(error.localizedDescription)
 }
-do
-{
+do {
     try listWithString.remove()
     print(listWithString)
     try listWithString.remove()
-}catch
-{
+} catch {
     print(error.localizedDescription)
 }
